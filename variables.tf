@@ -51,3 +51,8 @@ variable "rancher_server_size" {
   type    = "string"
   default = "t2.medium"
 }
+
+variable "rancher_version" {
+  type    = "string"
+  default = "latest"
+}
