@@ -56,3 +56,8 @@ variable "rancher_version" {
   type    = "string"
   default = "latest"
 }
+
+variable "db_password" {
+  type    = "string"
+  default = "cattle"
+}

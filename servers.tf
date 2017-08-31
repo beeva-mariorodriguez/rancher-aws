@@ -16,7 +16,7 @@ resource "aws_instance" "rancher_server" {
 
   provisioner "remote-exec" {
     inline = [
-      "docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 rancher/server:${var.rancher_version} --db-host ${aws_db_instance.rancher.address} --db-port ${aws_db_instance.rancher.port} --db-user ${aws_db_instance.rancher.username} --db-pass Thiephi8enaile8w  --db-name cattle --advertise-address ${aws_instance.rancher_server.private_ip}",
+      "docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 rancher/server:${var.rancher_version} --db-host ${aws_db_instance.rancher.address} --db-port ${aws_db_instance.rancher.port} --db-user ${aws_db_instance.rancher.username} --db-pass ${var.db_password} --db-name cattle --advertise-address ${aws_instance.rancher_server.private_ip}",
     ]
 
     connection {

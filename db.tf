@@ -10,7 +10,7 @@ resource "aws_db_instance" "rancher" {
   instance_class       = "db.t2.small"
   name                 = "cattle"
   username             = "cattle"
-  password             = "Thiephi8enaile8w"
+  password             = "${var.db_password}"
   db_subnet_group_name = "${aws_db_subnet_group.db.name}"
   skip_final_snapshot  = "true"
 }
