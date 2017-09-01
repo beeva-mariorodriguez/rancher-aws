@@ -29,7 +29,7 @@ resource "aws_instance" "mesos_host" {
     "${aws_security_group.allow_outbound.id}",
   ]
 
-  count = 0
+  count = 4
 
   provisioner "remote-exec" {
     inline = [
