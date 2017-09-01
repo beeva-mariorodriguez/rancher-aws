@@ -15,7 +15,7 @@ resource "rancher_registration_token" "cattle" {
   # }
 }
 
-resource "aws_instance" "rancher_host" {
+resource "aws_instance" "cattle_host" {
   ami           = "${data.aws_ami.rancheros.image_id}"
   instance_type = "${var.rancher_host_size}"
   subnet_id     = "${aws_subnet.hosts.id}"
@@ -23,12 +23,13 @@ resource "aws_instance" "rancher_host" {
   key_name      = "${var.aws_key_name}"
 
   vpc_security_group_ids = [
+    "${aws_security_group.rancher.id}",
     "${aws_security_group.rancher_host.id}",
     "${aws_security_group.allow_ssh.id}",
     "${aws_security_group.allow_outbound.id}",
   ]
 
-  count = 0
+  count = 4
 
   provisioner "remote-exec" {
     inline = [
