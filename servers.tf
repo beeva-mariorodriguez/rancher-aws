@@ -4,7 +4,7 @@ resource "aws_instance" "rancher_server" {
   instance_type = "${var.rancher_server_size}"
 
   subnet_id  = "${aws_subnet.servers.id}"
-  depends_on = ["aws_internet_gateway.gw", "aws_route53_zone.private"]
+  depends_on = ["aws_internet_gateway.gw", "aws_route53_zone.private", "aws_route.r"]
   key_name   = "${var.aws_key_name}"
 
   vpc_security_group_ids = [
@@ -12,7 +12,7 @@ resource "aws_instance" "rancher_server" {
     "${aws_security_group.rancher.id}",
     "${aws_security_group.rancher_server.id}",
     "${aws_security_group.allow_ssh.id}",
-    "${aws_security_group.allow_outbound.id}"
+    "${aws_security_group.allow_outbound.id}",
   ]
 
   provisioner "remote-exec" {
