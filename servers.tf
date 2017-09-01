@@ -9,14 +9,15 @@ resource "aws_instance" "rancher_server" {
 
   vpc_security_group_ids = [
     "${aws_vpc.cluster.default_security_group_id}",
+    "${aws_security_group.rancher.id}",
     "${aws_security_group.rancher_server.id}",
     "${aws_security_group.allow_ssh.id}",
-    "${aws_security_group.allow_outbound.id}",
+    "${aws_security_group.allow_outbound.id}"
   ]
 
   provisioner "remote-exec" {
     inline = [
-      "docker run -d --restart=unless-stopped -p 8080:8080 -p 9345:9345 rancher/server:${var.rancher_version} --db-host ${aws_db_instance.rancher.address} --db-port ${aws_db_instance.rancher.port} --db-user ${aws_db_instance.rancher.username} --db-pass ${var.db_password} --db-name cattle --advertise-address ${aws_instance.rancher_server.private_ip}",
+      "docker run -d --restart=unless-stopped -p 8088:8088 -p 8080:8080 -p 9345:9345 rancher/server:${var.rancher_server_version} --db-host ${aws_db_instance.rancher.address} --db-port ${aws_db_instance.rancher.port} --db-user ${aws_db_instance.rancher.username} --db-pass ${var.db_password} --db-name cattle --advertise-address ${self.private_ip}",
     ]
 
     connection {

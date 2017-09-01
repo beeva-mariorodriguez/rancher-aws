@@ -13,4 +13,24 @@ resource "aws_db_instance" "rancher" {
   password             = "${var.db_password}"
   db_subnet_group_name = "${aws_db_subnet_group.db.name}"
   skip_final_snapshot  = "true"
+  parameter_group_name = "${aws_db_parameter_group.rancher.name}"
+}
+
+resource "aws_db_parameter_group" "rancher" {
+  family = "mariadb10.0"
+
+  parameter {
+    name  = "innodb_file_format"
+    value = "Barracuda"
+  }
+
+  parameter {
+    name  = "max_connections"
+    value = "200"
+  }
+
+  parameter {
+    name  = "max_allowed_packet"
+    value = "16777216"
+  }
 }

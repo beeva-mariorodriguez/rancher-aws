@@ -12,6 +12,12 @@ resource "aws_security_group" "allow_outbound" {
   }
 }
 
+resource "aws_security_group" "rancher" {
+  vpc_id      = "${aws_vpc.cluster.id}"
+  name        = "rancher"
+  description = "rancher"
+}
+
 resource "aws_security_group" "rancher_server" {
   vpc_id      = "${aws_vpc.cluster.id}"
   name        = "rancher_server"
@@ -22,7 +28,7 @@ resource "aws_security_group" "rancher_server" {
     to_port         = 8080
     protocol        = "tcp"
     self            = true
-    security_groups = ["${aws_security_group.rancher_host.id}"]
+    security_groups = ["${aws_security_group.rancher.id}"]
   }
 
   ingress {
@@ -34,9 +40,16 @@ resource "aws_security_group" "rancher_server" {
 }
 
 resource "aws_security_group" "rancher_host" {
-  vpc_id      = "${aws_vpc.cluster.id}"
-  name        = "rancher_host"
-  description = "rancher_host"
+    vpc_id      = "${aws_vpc.cluster.id}"
+    name        = "rancher_host"
+    description = "rancher_host"
+    ingress {
+        from_port       = 0
+        to_port         = 65535
+        protocol        = "tcp"
+        self            = true
+        security_groups = ["${aws_security_group.rancher.id}"]
+    }
 }
 
 resource "aws_security_group" "allow_ssh" {
