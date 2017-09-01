@@ -39,3 +39,23 @@ resource "aws_route" "r" {
   route_table_id         = "${aws_vpc.cluster.default_route_table_id}"
   gateway_id             = "${aws_internet_gateway.gw.id}"
 }
+
+resource "aws_elb" "rancher" {
+  name     = "rancher-elb"
+  subnets  = ["${aws_subnet.servers.id}"]
+  internal = true
+
+  listener {
+    instance_port     = 8080
+    instance_protocol = "http"
+    lb_port           = 8080
+    lb_protocol       = "http"
+  }
+
+  instances = ["${aws_instance.rancher_server.id}"]
+}
+
+resource "aws_proxy_protocol_policy" "websockets" {
+  load_balancer  = "${aws_elb.rancher.name}"
+  instance_ports = ["8080"]
+}

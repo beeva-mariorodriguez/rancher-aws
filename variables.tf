@@ -89,3 +89,7 @@ variable "rancher_access_key" {
 variable "rancher_secret_key" {
   type = "string"
 }
+
+variable "rancher_lb_azs" {
+  default = ["us-east-2a", "us-east-2b"]
+}
