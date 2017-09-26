@@ -18,20 +18,6 @@ resource "aws_security_group" "rancher" {
   description = "rancher"
 }
 
-resource "aws_security_group" "rancher_lb" {
-  vpc_id      = "${aws_vpc.cluster.id}"
-  name        = "rancher_lb"
-  description = "rancher_lb"
-
-  ingress {
-    from_port       = 8080
-    to_port         = 8080
-    protocol        = "tcp"
-    self            = true
-    security_groups = ["${aws_security_group.rancher.id}"]
-  }
-}
-
 resource "aws_security_group" "rancher_server" {
   vpc_id      = "${aws_vpc.cluster.id}"
   name        = "rancher_server"
@@ -42,7 +28,7 @@ resource "aws_security_group" "rancher_server" {
     to_port         = 8080
     protocol        = "tcp"
     self            = true
-    security_groups = ["${aws_security_group.rancher_lb.id}"]
+    security_groups = ["${aws_security_group.rancher.id}"]
   }
 
   ingress {
