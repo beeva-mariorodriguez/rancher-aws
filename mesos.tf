@@ -7,19 +7,13 @@ resource "rancher_registration_token" "mesos" {
   name           = "mesos_environment_token"
   description    = "Registration token for the mesos environment"
   environment_id = "${rancher_environment.mesos.id}"
-
-  # host_labels {
-  #   orchestration = true
-  #   etcd          = true
-  #   compute       = true
-  # }
 }
 
 resource "aws_instance" "mesos_host" {
   ami           = "${data.aws_ami.rancheros.image_id}"
   instance_type = "${var.rancher_host_size}"
   subnet_id     = "${aws_subnet.hosts.id}"
-  depends_on    = ["aws_internet_gateway.gw", "aws_route53_zone.private"]
+  depends_on    = ["aws_internet_gateway.gw", "aws_route53_zone.private", "aws_instance.rancher_server"]
   key_name      = "${var.aws_key_name}"
 
   vpc_security_group_ids = [

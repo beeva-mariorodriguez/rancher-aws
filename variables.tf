@@ -1,6 +1,6 @@
 variable "domain_name" {
   type    = "string"
-  default = "rancher.local"
+  default = "rancher.cluster"
 }
 
 variable "aws_region" {
