@@ -7,12 +7,6 @@ resource "rancher_registration_token" "mesos" {
   name           = "mesos_environment_token"
   description    = "Registration token for the mesos environment"
   environment_id = "${rancher_environment.mesos.id}"
-
-  # host_labels {
-  #   orchestration = true
-  #   etcd          = true
-  #   compute       = true
-  # }
 }
 
 resource "aws_instance" "mesos_host" {
