@@ -37,7 +37,7 @@ resource "aws_security_group" "rancher_server" {
     to_port         = 8080
     protocol        = "tcp"
     self            = true
-    security_groups = ["${aws_security_group.rancher_host.id}"]
+    security_groups = ["${aws_security_group.rancher_host.id}", "${aws_security_group.bastion.id}"]
   }
 
   # rancher server HA
@@ -50,10 +50,10 @@ resource "aws_security_group" "rancher_server" {
 
   # ssh
   ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["${aws_security_group.bastion.id}"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
@@ -88,9 +88,9 @@ resource "aws_security_group" "rancher_host" {
 
   # ssh
   ingress {
-    from_port       = 22
-    to_port         = 22
-    protocol        = "tcp"
-    security_groups = ["${aws_security_group.bastion.id}"]
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
