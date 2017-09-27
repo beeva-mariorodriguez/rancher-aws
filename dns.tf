@@ -5,7 +5,7 @@ resource "aws_route53_zone" "private" {
   vpc_id        = "${aws_vpc.cluster.id}"
 }
 
-resource "aws_route53_record" "rancher" {
+resource "aws_route53_record" "server" {
   zone_id = "${aws_route53_zone.private.zone_id}"
   name    = "server"
   type    = "A"
