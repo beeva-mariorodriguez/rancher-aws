@@ -13,11 +13,6 @@ variable "aws_cidr_block" {
   default = "10.20.0.0/16"
 }
 
-variable "aws_hosts_cidr_block" {
-  type    = "string"
-  default = "10.20.3.0/24"
-}
-
 variable "aws_servers_cidr_block" {
   type    = "string"
   default = "10.20.0.0/24"
@@ -53,11 +48,6 @@ variable "aws_key_name" {
 }
 
 variable "rancher_server_size" {
-  type    = "string"
-  default = "t2.medium"
-}
-
-variable "rancher_host_size" {
   type    = "string"
   default = "t2.medium"
 }

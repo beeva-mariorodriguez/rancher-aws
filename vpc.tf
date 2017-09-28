@@ -4,12 +4,6 @@ resource "aws_vpc" "cluster" {
   enable_dns_hostnames = true
 }
 
-resource "aws_subnet" "hosts" {
-  vpc_id                  = "${aws_vpc.cluster.id}"
-  cidr_block              = "${var.aws_hosts_cidr_block}"
-  map_public_ip_on_launch = true
-}
-
 resource "aws_subnet" "servers" {
   vpc_id                  = "${aws_vpc.cluster.id}"
   cidr_block              = "${var.aws_servers_cidr_block}"

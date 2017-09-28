@@ -1,13 +1,13 @@
-output "hosts_subnet" {
-  value = "${aws_subnet.hosts.id}"
+output "domain_name" {
+  value = "${var.domain_name}"
 }
 
-output "hosts_sc" {
-  value = "${aws_security_group.rancher_host.id}"
+output "dns_zone_id" {
+  value = "${aws_route53_zone.private.id}"
 }
 
-output "key" {
-  value = "${var.aws_key_name}"
+output "vpc_id" {
+  value = "${aws_vpc.cluster.id}"
 }
 
 output "bastion_public_ip" {
