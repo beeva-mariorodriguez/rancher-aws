@@ -3,19 +3,20 @@
 deploy rancher on AWS using terraform
 
 ## instructions
+### rancher server
 ```sh
-terraform apply -target aws_instance.rancher_server
+terraform apply
 ```
 tunnel ssh to rancher server
 ```sh
-ssh -D 12345 -L 8080:127.0.0.1:8080 rancher@1.2.3.4
+ssh -D 12345 -L 8080:server.rancher.cluster:8080 rancher@${BASTION_IP}
 ```
-register IP using web interface
-* change rancher register IP
-* generate API keys
-```sh
-export TF_VAR_rancher_access_key="..."
-export TF_VAR_rancher_secret_key="..."
-terraform apply
+### kubernetes
+```bash
+./k8s.sh clustername
+kops edit cluster clustername.$(terraform output domain_name)
+# change subnets to avoid conflicts with subnets declared in terraform
+kops update cluster clustername.$(terraform output domain_name)
+kops update cluster clustername.$(terraform output domain_name) --yes
 ```
 
