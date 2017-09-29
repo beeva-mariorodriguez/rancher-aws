@@ -10,5 +10,17 @@ resource "aws_route53_record" "server" {
   name    = "server"
   type    = "A"
   ttl     = "300"
-  records = ["${aws_instance.rancher_server.private_ip}"]
+  records = ["${aws_instance.rancher_server.*.private_ip}"]
+}
+
+resource "aws_route53_record" "lb" {
+  zone_id = "${aws_route53_zone.private.zone_id}"
+  name    = "lb"
+  type    = "A"
+
+  alias {
+    name                   = "${aws_elb.lb.dns_name}"
+    zone_id                = "${aws_elb.lb.zone_id}"
+    evaluate_target_health = false
+  }
 }

@@ -26,6 +26,5 @@ resource "aws_instance" "rancher_server" {
       user = "rancher"
     }
   }
-
-  count = 1
+  count = 2
 }
