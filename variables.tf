@@ -54,7 +54,7 @@ variable "rancher_server_size" {
 
 variable "rancher_server_version" {
   type    = "string"
-  default = "latest"
+  default = "stable"
 }
 
 variable "db_password" {
