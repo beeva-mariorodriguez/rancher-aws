@@ -18,7 +18,7 @@ resource "aws_instance" "rancher_server" {
       "#!/bin/bash",
       "docker run -d --restart=unless-stopped -p 8088:8088 -p 8080:8080 -p 9345:9345 rancher/server:${var.rancher_server_version} --db-host ${aws_db_instance.rancher.address} --db-port ${aws_db_instance.rancher.port} --db-user ${aws_db_instance.rancher.username} --db-pass ${var.db_password} --db-name cattle --advertise-address ${self.private_ip}",
       "sleep 60",
-      "docker run --rm rancher/server:${var.rancher_server_version} curl -XPUT -d '{\"value\":\"http://server.${var.domain_name}:8080\"}' -H 'Content-Type: application/json' http://${self.private_ip}:8080/v1/settings/api.host",
+      "docker run --rm rancher/server:${var.rancher_server_version} curl -XPUT -d '{\"value\":\"http://lb.${var.domain_name}:8080\"}' -H 'Content-Type: application/json' http://${self.private_ip}:8080/v1/settings/api.host",
     ]
 
     connection {
